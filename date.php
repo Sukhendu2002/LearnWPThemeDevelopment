@@ -12,13 +12,13 @@
 
             if (is_year()) {
             ?> You're viewing a year archive. <?php
-                                                    } else if (is_month()) {
-                                                        ?> You're viewing a month archive. <?php
-                                                    } else if (is_day()) {
-                                                        ?> You're viewing a day archive. <?php
-                                                    }
+                                            } else if (is_month()) {
+                                                ?> You're viewing a month archive. <?php
+                                                                                } else if (is_day()) {
+                                                                                    ?> You're viewing a day archive. <?php
+                                                                                                                    }
 
-                                                        ?>
+                                                                                                                        ?>
         </span>
     </div>
 

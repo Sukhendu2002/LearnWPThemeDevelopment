@@ -11,10 +11,6 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Document Title
-	============================================= -->
-    <title>Index Template</title>
-
 </head>
 
 <body <?php body_class("stretched no-transition"); ?>>
@@ -34,11 +30,19 @@
                     <!-- Top Links
           ============================================= -->
                     <div class="top-links">
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">FAQs</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
+                        <?php
+                        if (has_nav_menu('secondary')) {
+                            wp_nav_menu(
+                                array(
+                                    'theme_location' => 'secondary',
+                                    'container'      => false,
+                                    'fallback_cb'    => false,
+                                    'depth'          => 1,
+                                    // 'walker'         => new SU_Custom_Nav_Walker(),
+                                )
+                            );
+                        }
+                        ?>
                     </div><!-- .top-links end -->
 
                 </div>
@@ -49,11 +53,18 @@
           ============================================= -->
                     <div id="top-social">
                         <ul>
-                            <li>
-                                <a href="#" class="si-facebook">
-                                    <span class="ts-icon"><i class="icon-facebook"></i></span><span class="ts-text">Facebook</span>
-                                </a>
-                            </li>
+                            <?php
+                            if (get_theme_mod('su_facebook_handle')) {
+                            ?>
+                                <li>
+                                    <a href="https://www.facebook.com/<?php echo get_theme_mod('su_facebook_handle'); ?>/" class="si-facebook">
+                                        <span class="ts-icon"><i class="icon-facebook"></i></span><span class="ts-text">Facebook</span>
+                                    </a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+
                             <li>
                                 <a href="#" class="si-twitter">
                                     <span class="ts-icon"><i class="icon-twitter"></i></span><span class="ts-text">Twitter</span>
@@ -92,12 +103,23 @@
                 <!-- Logo
         ============================================= -->
                 <div id="logo">
-                    <a href="#" class="standard-logo">Udemy</a>
+                    <?php
+
+                    if (has_custom_logo()) {
+                        the_custom_logo();
+                    } else {
+                    ?>
+                        <a href="<?php echo home_url('/'); ?>" class="standard-logo"><?php bloginfo('name'); ?></a>
+                    <?php
+                    }
+
+                    ?>
+
                 </div><!-- #logo end -->
 
-                <div class="top-advert">
+                <!-- <div class="top-advert">
                     <img src="images/magazine/ad.jpg">
-                </div>
+                </div> -->
 
             </div>
 
