@@ -145,47 +145,58 @@
 
                             <div class="related-posts clearfix">
 
-                                <div class="mpost clearfix">
-                                    <div class="entry-image">
-                                        <a href="#">
-                                            <img src="images/blog/small/10.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="entry-c">
-                                        <div class="entry-title">
-                                            <h4>
-                                                <a href="#">
-                                                    This is an Image Post
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <ul class="entry-meta clearfix">
-                                            <li><i class="icon-calendar3"></i> 10th July 2014</li>
-                                            <li><i class="icon-comments"></i> 12</li>
-                                        </ul>
-                                        <div class="entry-content">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Mollitia nisi perferendis.
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php
+                                $rp_query = new WP_Query(
+                                    [
+                                        'posts_per_page' => 2,
+                                        'post__not_in' => [$post->ID],
+                                        'cat' => wp_get_post_categories($post->ID)[0]
+                                    ]
+                                );
 
-                                <div class="mpost clearfix">
-                                    <div class="entry-image">
-                                        <a href="#"><img src="images/blog/small/20.jpg" alt="Blog Single"></a>
-                                    </div>
-                                    <div class="entry-c">
-                                        <div class="entry-title">
-                                            <h4><a href="#">This is a Video Post</a></h4>
+                                if ($rp_query->have_posts()) {
+                                    while ($rp_query->have_posts()) {
+                                        $rp_query->the_post();
+                                ?>
+                                        <div class="mpost clearfix">
+                                            <?php
+                                            if (has_post_thumbnail()) {
+                                            ?>
+                                                <div class="entry-image">
+                                                    <a href=<?php the_permalink(); ?>>
+                                                        <img src="<?php the_post_thumbnail_url('thumbnail'); ?>" alt="Blog Single">
+                                                    </a>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
+                                            <div class="entry-c">
+                                                <div class="entry-title">
+                                                    <h4>
+                                                        <a href=<?php the_permalink(); ?>>
+                                                            <?php the_title(); ?>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <ul class="entry-meta clearfix">
+                                                    <li><i class="icon-calendar3"></i> <?php echo get_the_date(); ?></li>
+                                                    <li><i class="icon-comments"></i>
+                                                        <a href=<?php echo get_comments_link($post->ID); ?>>
+                                                    </li>
+                                                </ul>
+                                                <div class="entry-content">
+                                                    <?php the_excerpt(); ?>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <ul class="entry-meta clearfix">
-                                            <li><i class="icon-calendar3"></i> 24th July 2014</li>
-                                            <li><i class="icon-comments"></i> 16</li>
-                                        </ul>
-                                        <div class="entry-content">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Mollitia nisi perferendis.</div>
-                                    </div>
-                                </div>
+                                <?php
+                                    }
+
+                                    wp_reset_postdata();
+                                }
+
+                                ?>
+
 
                             </div>
 
